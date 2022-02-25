@@ -26,11 +26,15 @@ import requests
 r = requests.get("https://live.skillbox.ru/")
 
 soup = BeautifulSoup(r.content, "html.parser")
-# all_names = soup.findAll(class_="webinar-card__title")
-# pprint([name.string.strip() for name in all_names])
-
 more_info = soup.find_all(class_="webinars__item")
+# Домашнее задание
 for webinar in more_info:
+    duration = webinar.select("span.duration.webinar-card__duration").string.strip()
     title = webinar.find(class_ = "webinar-card__title").string.strip()
     date = webinar.find(class_ = "webinar-card__date").string.strip()
-    print(f"Вебинар {title} пройдет {date}")
+    views = webinar.select("span.webinar-views.webinar-card__views").string.strip()
+    print(f"Вебинар {title} длительностью {duration} прошел {date}. Его просмотрели {views} раз." )
+
+# test = more_info[0]
+# views = test.select("span.webinar-views.webinar-card__views")
+# print(views[0].text.strip())
